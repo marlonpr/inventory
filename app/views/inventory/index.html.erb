@@ -1,0 +1,23 @@
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Modify Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @inventory_items.each do |item| %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= item.quantity %></td>
+        <td>
+          <%= form_with(model: item, local: true) do |form| %>
+            <%= form.number_field :quantity %>
+            <%= form.submit "Update" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,38 @@
+<%= form_tag search_modifications_path, method: :get do %>
+  <%= label_tag :date, "Search modifications for date:" %>
+  <%= text_field_tag :date %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Inventory Item</th>
+      <th>Quantity Added</th>
+      <th>Quantity Removed</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @modifications.each do |modification| %>
+      <tr>
+        <td><%= modification.inventory.name %></td>
+        <td><%= modification.quantity_added %></td>
+        <td><%= modification.quantity_removed %></td>
+        <td><%= modification.date %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+  // Reload the search results when the search form is submitted
+  document.getElementById("search-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+    var form = event.target;
+    var url = form.action + "?" + new URLSearchParams(new FormData(form)).toString();
+    fetch(url)
+      .then(response => response.text())
+      .then(html => document.getElementById("modifications-table").innerHTML = html);
+  });
+</script>
